@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 sidebar">
+      <%# tag %>
+
+      <a class="btn btn-primary js-upload-photo fileinput-button" href="javascript:;">
+        Upload Photo
+        <input id="fileupload" type="file" name="file">
+      </a>
+    </div>
+    <%# sidebar %>
+
+    <div class="col-md-9 main">
+      <div class="photos">
+        <div class="row">
+          <% @photos.each do |photo| %>
+            <div class="col-md-4 ">
+
+              <div class="photo">
+                <%= image_tag photo.url.url %>
+                <div class="photo-info">
+                  <p class="title">Title: <%= photo.title %></p>
+                  <p class="date">Date: <%= photo.created_at.to_s(:cn_date) %></p>
+                  <p>Tag:  </p>
+                </div>
+              </div>
+
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <%# main %>
+
+  </div>
+</div>
