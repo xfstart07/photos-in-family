@@ -19,4 +19,5 @@
 //= require jquery-fileupload/vendor/jquery.ui.widget
 //= require jquery-fileupload/vendor/tmpl
 //= require jquery-fileupload/jquery.fileupload
+//= require lodash
 //= require_tree .

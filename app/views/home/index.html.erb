@@ -1,7 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3 sidebar">
-      <%# tag %>
+      <h3>Tags</h3>
+      <ul class="tags">
+        <% Tag.all.each do |tag| %>
+          <li class="li-tag" data-name="<%= tag.name %>"> <%= tag.name %> </li>
+        <% end %>
+      </ul>
 
       <a class="btn btn-primary js-upload-photo fileinput-button" href="javascript:;">
         Upload Photo
@@ -17,11 +22,14 @@
             <div class="col-md-4 ">
 
               <div class="photo">
-                <%= image_tag photo.url.url, class: 'photo-url' %>
+                <%= image_tag photo.url.url, class: 'photo-url', 'data-id': photo.id %>
                 <div class="photo-info">
                   <p class="title">Title: <%= photo.title %></p>
                   <p class="date">Date: <%= photo.created_at.to_s(:cn_date) %></p>
-                  <p>Tag:  </p>
+                  <p class="tag">
+                    Tag: <span class="photo-tag"><%= photo&.tag&.name %></span>
+                    <%= text_field_tag :tag, '', 'data-id': photo.id, class: 'tag-input' %>
+                  </p>
                 </div>
               </div>
 

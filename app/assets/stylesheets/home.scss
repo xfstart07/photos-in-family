@@ -55,5 +55,25 @@
       text-align: left;
       background-color: #ffffff;
     }
+
+    .photo-info {
+      .tag {
+        text-decoration: underline black;
+      }
+      .photo-tag {
+        color: #04101c;
+        font-weight: bold;
+        min-width: 100px;
+      }
+      .tag-input {
+        display: none;
+      }
+    }
+  }
+}
+
+.tags {
+  .li-tag {
+    padding: 20px 0;
   }
 }

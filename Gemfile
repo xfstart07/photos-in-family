@@ -38,6 +38,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails', '~> 4.3'
 gem 'jquery-ui-rails'
 gem 'jquery-fileupload-rails'
+gem 'lodash-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
