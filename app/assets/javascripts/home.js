@@ -59,7 +59,7 @@
       var _this = $(this);
 
       if (_.isEmpty(value)) {
-        toggleInput(_this);
+        toggleInput(_this, "");
         return;
       }
 
@@ -78,7 +78,7 @@
       });
     });
 
-    var toggleInput = function(input, value = "") {
+    var toggleInput = function(input, value) {
       input.hide();
       input.siblings(".photo-tag").show();
       if (!_.isEmpty(value)) {
