@@ -1,11 +1,11 @@
 class PhotosController < ApplicationController
   def create
-    @photo = Photo.new(title: params[:file].original_filename, url: params[:file])
+    @photo = Photo.create(title: params[:file].original_filename, url: params[:file])
 
-    if @photo.save
-      render json: { status: 'ok' }
-    else
+    if @photo.errors.any?
       render json: { status: 'error' }
+    else
+      render json: { status: 'ok' }
     end
   end
 

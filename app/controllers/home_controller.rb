@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @photos = Photo.limit(9)
+    @photos = Photo.page(params[:page]).per(9)
   end
 end

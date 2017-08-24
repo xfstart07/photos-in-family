@@ -1,5 +1,5 @@
 class Photo < ApplicationRecord
-  belongs_to :tag
+  belongs_to :tag, optional: true
 
   validates :title, :url, presence: true
 
