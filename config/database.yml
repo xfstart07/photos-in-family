@@ -21,7 +21,11 @@ development:
 production:
   <<: *default
   prepared_statements: false
-  database: photos_in_family
+  host: ec2-54-163-237-25.compute-1.amazonaws.com
+  database: da1ghgt3kkmf23
+  user: zdhmbkgfiggfel
+  password: 146e19e3dddf1c8919353245dddcbaeac4c94437f7b5f085ac3634329997b884
+  port: 5432
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
