@@ -71,10 +71,11 @@
         console.log(data);
 
         toggleInput(_this, value);
-
-        $("ul.tags").append(
-          "<li class='li-tag' data-name='" + value + "'> " + value + " </li>"
-        );
+        if (isIncludeTags(value)) {
+          $("ul.tags").append(
+            "<li class='li-tag' data-name='" + value + "'> " + value + " </li>"
+          );
+        }
       });
     });
 
@@ -84,6 +85,22 @@
       if (!_.isEmpty(value)) {
         input.siblings(".photo-tag").text(value);
       }
+    };
+
+    var isIncludeTags = function(value) {
+      if (_.isEmpty(value)) {
+        return false;
+      }
+      var tags = [];
+      $("ul.tags > li").each(function() {
+        tags.push($(this).attr("data-name"));
+      });
+
+      if (_.isEmpty(tags)) {
+        return true;
+      }
+
+      _.includes(tags, value);
     };
   });
 })(window);

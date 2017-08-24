@@ -28,7 +28,7 @@
                   <p class="date">Date: <%= photo.created_at.to_s(:cn_date) %></p>
                   <p class="tag">
                     Tag: <span class="photo-tag"><%= photo&.tag&.name %></span>
-                    <%= text_field_tag :tag, '', 'data-id': photo.id, class: 'tag-input' %>
+                    <%= text_field_tag :tag, photo&.tag&.name, 'data-id': photo.id, class: 'tag-input' %>
                   </p>
                 </div>
               </div>
