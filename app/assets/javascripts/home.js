@@ -1,106 +1,87 @@
-(function(global) {
-  $(document).ready(function() {
-    $(document).on("click", ".js-upload-photo", function() {
-      $("#fileupload").fileupload({
-        url: "/photos",
-        dataType: "json",
-        maxFileSize: 5000000, // 5M
-        minFileSize: 1,
-        start: function(e) {},
-        done: function(e, data) {
-          global.location.href = "/";
-        },
-        fail: function(e, data) {
-          console.log("Uploads fail");
-          alert("上传失败");
-        }
-      });
-    });
+// (function(global) {
+//   $(document).ready(function() {
+//     $(".li-tag").droppable({
+//       drop: function(event, ui) {
+//         var $tag = $(this),
+//           $photo = $(ui.draggable);
 
-    $(".photo-url").draggable({ revert: true });
+//         var tag_name = $tag.attr("data-name");
+//         var photo_id = $photo.attr("data-id");
 
-    $(".li-tag").droppable({
-      drop: function(event, ui) {
-        var $tag = $(this),
-          $photo = $(ui.draggable);
+//         if (_.isEmpty(tag_name) || _.isEmpty(photo_id)) {
+//           console.log("哎呀，你没有选好标签啊。。。");
+//         } else {
+//           $.ajax({
+//             url: "/photos/" + photo_id + ".json",
+//             method: "PUT",
+//             data: { tag_name: tag_name }
+//           }).done(function(data) {
+//             console.log(data);
 
-        var tag_name = $tag.attr("data-name");
-        var photo_id = $photo.attr("data-id");
+//             $photo.parent().find("span.photo-tag").text(data.photo.tag_name);
+//           });
+//         }
+//       }
+//     });
 
-        if (_.isEmpty(tag_name) || _.isEmpty(photo_id)) {
-          console.log("哎呀，你没有选好标签啊。。。");
-        } else {
-          $.ajax({
-            url: "/photos/" + photo_id + ".json",
-            method: "PUT",
-            data: { tag_name: tag_name }
-          }).done(function(data) {
-            console.log(data);
+//     $(".tag").on("click", function() {
+//       $photo_tag = $(this).find("span.photo-tag");
+//       $tag_input = $(this).find("input.tag-input");
 
-            $photo.parent().find("span.photo-tag").text(data.photo.tag_name);
-          });
-        }
-      }
-    });
+//       $photo_tag.hide();
+//       $tag_input.show();
+//       $tag_input.focus();
+//     });
 
-    $(".tag").on("click", function() {
-      $photo_tag = $(this).find("span.photo-tag");
-      $tag_input = $(this).find("input.tag-input");
+//     $(".tag-input").blur(function() {
+//       var value = $(this).val();
+//       var photo_id = $(this).attr("data-id");
 
-      $photo_tag.hide();
-      $tag_input.show();
-      $tag_input.focus();
-    });
+//       var _this = $(this);
 
-    $(".tag-input").blur(function() {
-      var value = $(this).val();
-      var photo_id = $(this).attr("data-id");
+//       if (_.isEmpty(value)) {
+//         toggleInput(_this, "");
+//         return;
+//       }
 
-      var _this = $(this);
+//       $.ajax({
+//         url: "/photos/" + photo_id + ".json",
+//         method: "PUT",
+//         data: { tag_name: value }
+//       }).done(function(data) {
+//         console.log(data);
 
-      if (_.isEmpty(value)) {
-        toggleInput(_this, "");
-        return;
-      }
+//         toggleInput(_this, value);
+//         if (isIncludeTags(value)) {
+//           $("ul.tags").append(
+//             "<li class='li-tag' data-name='" + value + "'> " + value + " </li>"
+//           );
+//         }
+//       });
+//     });
 
-      $.ajax({
-        url: "/photos/" + photo_id + ".json",
-        method: "PUT",
-        data: { tag_name: value }
-      }).done(function(data) {
-        console.log(data);
+//     var toggleInput = function(input, value) {
+//       input.hide();
+//       input.siblings(".photo-tag").show();
+//       if (!_.isEmpty(value)) {
+//         input.siblings(".photo-tag").text(value);
+//       }
+//     };
 
-        toggleInput(_this, value);
-        if (isIncludeTags(value)) {
-          $("ul.tags").append(
-            "<li class='li-tag' data-name='" + value + "'> " + value + " </li>"
-          );
-        }
-      });
-    });
+//     var isIncludeTags = function(value) {
+//       if (_.isEmpty(value)) {
+//         return false;
+//       }
+//       var tags = [];
+//       $("ul.tags > li").each(function() {
+//         tags.push($(this).attr("data-name"));
+//       });
 
-    var toggleInput = function(input, value) {
-      input.hide();
-      input.siblings(".photo-tag").show();
-      if (!_.isEmpty(value)) {
-        input.siblings(".photo-tag").text(value);
-      }
-    };
+//       if (_.isEmpty(tags)) {
+//         return true;
+//       }
 
-    var isIncludeTags = function(value) {
-      if (_.isEmpty(value)) {
-        return false;
-      }
-      var tags = [];
-      $("ul.tags > li").each(function() {
-        tags.push($(this).attr("data-name"));
-      });
-
-      if (_.isEmpty(tags)) {
-        return true;
-      }
-
-      _.includes(tags, value);
-    };
-  });
-})(window);
+//       _.includes(tags, value);
+//     };
+//   });
+// })(window);

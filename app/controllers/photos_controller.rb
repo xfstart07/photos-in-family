@@ -5,7 +5,7 @@ class PhotosController < ApplicationController
     if @photo.errors.any?
       render json: { status: 'error' }
     else
-      render json: { status: 'ok' }
+      render json: { photo: @photo.as_basic_json, status: 'ok' }
     end
   end
 
@@ -21,7 +21,7 @@ class PhotosController < ApplicationController
     tag = Tag.find_or_create_by(name: params[:tag_name])
 
     if @photo.update(tag: tag)
-      render json: { photo: @photo.as_basic_json, status: 'ok' }
+      render json: { tags: Tag.all.as_json(only: [:id, :name]), photo: @photo.as_basic_json, status: 'ok' }
     else
       render json: { status: 'error', message: '标签设置失败' }
     end
