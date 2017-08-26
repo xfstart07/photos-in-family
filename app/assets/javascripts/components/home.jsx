@@ -35,41 +35,6 @@ window.Home = React.createClass({
     input.hide();
     input.siblings(".photo-tag").show();
   },
-  tagDroppable: function() {
-    const self = this;
-    $(".li-tag").droppable({
-      drop: function(event, ui) {
-        const $tag = $(this),
-          $photo = $(ui.draggable);
-
-        let tag_name = $tag.attr("data-name");
-        let photo_id = $photo.attr("data-id");
-        let photo_index = +$photo.attr("data-index");
-
-        if (_.isEmpty(tag_name) || _.isEmpty(photo_id)) {
-          console.log("哎呀，你没有选好标签啊。。。");
-        } else {
-          $.ajax({
-            url: "/photos/" + photo_id + ".json",
-            method: "PUT",
-            data: { tag_name: tag_name }
-          }).done(function(data) {
-            console.log(data);
-
-            var photos = React.addons.update(self.state.photos, {
-              [photo_index]: {
-                tag_name: { $set: data.photo.tag_name }
-              }
-            });
-            console.log(photos);
-
-            self.setState({ photos: photos });
-            $photo.parent().find("span.photo-tag").text(data.photo.tag_name);
-          });
-        }
-      }
-    });
-  },
   uploadFile: function(event) {
     console.log($(event.target));
     const self = this;
@@ -85,7 +50,9 @@ window.Home = React.createClass({
         if (result.status == "ok") {
           photos = _.cloneDeep(self.state.photos);
           photos.unshift(result.photo);
-          self.setState({ photos: photos });
+          self.setState({ photos: photos }, function() {
+            this.photoDraggable();
+          });
         } else {
           alert("上传失败");
         }
@@ -96,6 +63,14 @@ window.Home = React.createClass({
       }
     });
   },
+  photoDraggable: function() {
+    $(".photo-url").draggable({
+      revert: true,
+      start: function() {
+        console.log("draggable");
+      }
+    });
+  },
   handleTagClick: function(event) {
     const $this = $(event.target);
     let tag_id = $this.attr("data-id");
@@ -103,6 +78,20 @@ window.Home = React.createClass({
     this.setState({ current_tag: tag_id }, function() {
       this.handleSearch(tag_id);
     });
+  },
+  handleTagDrop: function(photo, photo_index) {
+    const self = this;
+    let photos = React.addons.update(self.state.photos, {
+      [photo_index]: {
+        tag_name: { $set: photo.tag_name }
+      }
+    });
+    console.log(photos);
+
+    self.setState({ photos: photos }, function() {
+      self.photoDraggable();
+    });
+
   },
   handleSubmitTag: function(photo_id, value, input, index) {
     let self = this;
@@ -123,7 +112,9 @@ window.Home = React.createClass({
       });
       console.log(photos);
 
-      self.setState({ tags: data.tags, photos: photos });
+      self.setState({ tags: data.tags, photos: photos }, function() {
+        self.photoDraggable();
+      });
     });
   },
   handlePaginationChange: function(page) {
@@ -140,18 +131,22 @@ window.Home = React.createClass({
 
     $.getJSON("/", params, function(data) {
       console.log(data);
-      self.setState({ photos: data.photos, pagination: data.pagination });
+      self.setState(
+        { photos: data.photos, pagination: data.pagination },
+        function() {
+          self.photoDraggable();
+        }
+      );
     });
   },
   componentDidMount: function() {
     console.log(this.state.tags);
-    $(".photo-url").draggable({ revert: true });
-
-    this.tagDroppable();
 
     this.handleSearch();
   },
   renderMain: function() {
+    console.log(this.state.photos);
+
     return (
       <div className="col-md-9 main">
         <div className="photos">
@@ -209,6 +204,7 @@ window.Home = React.createClass({
           tags={this.state.tags}
           onUploadFile={this.uploadFile}
           onTagClick={this.handleTagClick}
+          onPhotoDrop={this.handleTagDrop}
         />
 
         {content}

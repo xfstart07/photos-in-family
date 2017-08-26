@@ -1,4 +1,43 @@
 window.Sidebar = React.createClass({
+  tagDroppable: function() {
+    const self = this;
+    $(".li-tag").droppable({
+      drop: function(event, ui) {
+        console.log("drop");
+
+        const $tag = $(this),
+          $photo = $(ui.draggable);
+
+        let tag_name = $tag.attr("data-name");
+        let photo_id = $photo.attr("data-id");
+        let photo_index = +$photo.attr("data-index");
+
+        if (_.isEmpty(tag_name) || _.isEmpty(photo_id)) {
+          console.log("哎呀，你没有选好标签啊。。。");
+        } else {
+          $.ajax({
+            url: "/photos/" + photo_id + ".json",
+            method: "PUT",
+            data: { tag_name: tag_name }
+          }).done(function(data) {
+            console.log(data);
+
+            self.props.onPhotoDrop(data.photo, photo_index);
+
+            $photo.parent().find("span.photo-tag").text(data.photo.tag_name);
+          });
+        }
+      }
+    });
+  },
+  componentWillReceiveProps: function(nextProps) {
+    if (this.props != nextProps) {
+      this.tagDroppable();
+    }
+  },
+  componentDidMount: function() {
+    this.tagDroppable();
+  },
   render: function() {
     let tags = this.props.tags;
 
