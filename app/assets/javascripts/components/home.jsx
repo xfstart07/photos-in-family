@@ -48,11 +48,7 @@ window.Home = React.createClass({
         console.log(data.result);
         let result = data.result;
         if (result.status == "ok") {
-          photos = _.cloneDeep(self.state.photos);
-          photos.unshift(result.photo);
-          self.setState({ photos: photos }, function() {
-            this.photoDraggable();
-          });
+          window.location.href = "/";
         } else {
           alert("上传失败");
         }
@@ -91,7 +87,6 @@ window.Home = React.createClass({
     self.setState({ photos: photos }, function() {
       self.photoDraggable();
     });
-
   },
   handleSubmitTag: function(photo_id, value, input, index) {
     let self = this;
