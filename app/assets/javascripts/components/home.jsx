@@ -72,7 +72,7 @@ window.Home = React.createClass({
     $(".photo-url").draggable({
       revert: true,
       start: function() {
-        console.log("draggable");
+        // console.log("draggable");
       }
     });
   },
