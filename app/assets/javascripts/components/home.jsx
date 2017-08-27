@@ -36,7 +36,8 @@ window.Home = React.createClass({
     input.siblings(".photo-tag").show();
   },
   uploadFile: function(event) {
-    console.log($(event.target));
+    // console.log($(event.target));
+
     const self = this;
     $("#fileupload").fileupload({
       url: "/photos",
@@ -45,7 +46,8 @@ window.Home = React.createClass({
       minFileSize: 1,
       start: function(e) {},
       done: function(e, data) {
-        console.log(data.result);
+        // console.log(data.result);
+
         let result = data.result;
         if (result.status == "ok") {
           // photos = _.cloneDeep(self.state.photos);
@@ -59,7 +61,7 @@ window.Home = React.createClass({
         }
       },
       fail: function(e, data) {
-        console.log("Uploads fail");
+        // console.log("Uploads fail");
         alert("上传失败");
       }
     });
@@ -87,7 +89,7 @@ window.Home = React.createClass({
         tag_name: { $set: photo.tag_name }
       }
     });
-    console.log(photos);
+    // console.log(photos);
 
     self.setState({ photos: photos }, function() {
       self.photoDraggable();
@@ -100,17 +102,17 @@ window.Home = React.createClass({
       method: "PUT",
       data: { tag_name: value }
     }).done(function(data) {
-      console.log(data.result);
+      // console.log(data.result);
 
       self.toggleInput(input);
 
-      console.log(self.state.photos);
+      // console.log(self.state.photos);
       var photos = React.addons.update(self.state.photos, {
         [index]: {
           tag_name: { $set: data.photo.tag_name }
         }
       });
-      console.log(photos);
+      // console.log(photos);
 
       self.setState({ tags: data.tags, photos: photos }, function() {
         self.photoDraggable();
@@ -130,7 +132,7 @@ window.Home = React.createClass({
     params["page"] = page;
 
     $.getJSON("/", params, function(data) {
-      console.log(data);
+      // console.log(data);
       self.setState(
         { photos: data.photos, pagination: data.pagination },
         function() {
@@ -140,12 +142,12 @@ window.Home = React.createClass({
     });
   },
   componentDidMount: function() {
-    console.log(this.state.tags);
+    // console.log(this.state.tags);
 
     this.handleSearch();
   },
   renderMain: function() {
-    console.log(this.state.photos);
+    // console.log(this.state.photos);
 
     return (
       <div className="col-md-9 main">

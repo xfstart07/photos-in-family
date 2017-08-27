@@ -1,12 +1,12 @@
 window.Pagination = React.createClass({
   handleClick: function(page) {
-    console.log(page);
+    // console.log(page);
     if (this.props.onChange) {
       this.props.onChange(page);
     }
   },
   render: function() {
-    console.log(this.props.paginate);
+    // console.log(this.props.paginate);
     const paginate = this.props.paginate;
 
     let current_page = parseInt(paginate.current_page);
@@ -50,7 +50,7 @@ window.Pagination = React.createClass({
         pages.push(i);
       }
     }
-    console.log(pages);
+    // console.log(pages);
 
     let showPrev = current_page > 1;
     let showNext = current_page < total_page;

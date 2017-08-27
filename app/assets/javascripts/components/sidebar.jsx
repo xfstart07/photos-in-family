@@ -3,7 +3,7 @@ window.Sidebar = React.createClass({
     const self = this;
     $(".li-tag").droppable({
       drop: function(event, ui) {
-        console.log("drop");
+        // console.log("drop");
 
         const $tag = $(this),
           $photo = $(ui.draggable);
@@ -20,11 +20,9 @@ window.Sidebar = React.createClass({
             method: "PUT",
             data: { tag_name: tag_name }
           }).done(function(data) {
-            console.log(data);
+            // console.log(data);
 
             self.props.onPhotoDrop(data.photo, photo_index);
-
-            $photo.parent().find("span.photo-tag").text(data.photo.tag_name);
           });
         }
       }
