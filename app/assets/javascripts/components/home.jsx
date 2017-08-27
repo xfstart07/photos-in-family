@@ -1,8 +1,10 @@
 window.Home = React.createClass({
   getInitialState: function() {
+    let tags = _.cloneDeep(this.props.tags);
+
     return {
       current_tag: "",
-      tags: this.props.tags,
+      tags: tags,
       photos: [],
       pagination: {
         current_page: 0,
