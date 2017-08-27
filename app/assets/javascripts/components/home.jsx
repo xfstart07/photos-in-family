@@ -84,7 +84,7 @@ window.Home = React.createClass({
       this.handleSearch(tag_id);
     });
   },
-  handleTagDrop: function(photo, photo_index) {
+  handlePhotoDrop: function(photo, photo_index) {
     const self = this;
     let photos = React.addons.update(self.state.photos, {
       [photo_index]: {
@@ -208,7 +208,7 @@ window.Home = React.createClass({
           tags={this.state.tags}
           onUploadFile={this.uploadFile}
           onTagClick={this.handleTagClick}
-          onPhotoDrop={this.handleTagDrop}
+          onPhotoDrop={this.handlePhotoDrop}
         />
 
         {content}
